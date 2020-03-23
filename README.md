@@ -1,1 +1,1 @@
-# AzureAutomationDSC
+# Deploy With Azure Automation
