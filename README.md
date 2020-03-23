@@ -78,8 +78,47 @@ configuration TestConfig
 ```
 
 To Use Azure Automation Credentials in a script;
+To mount drive 
+
 
 ![Azure Automation Credentials](./Images/AutomationCredentials.png))
+
+Use Azure Automation Credentials in DSC Config use the following sample. 
+
+```PowerShell
+
+Configuration CredentialSample
+{
+    Import-DscResource -ModuleName PSDesiredStateConfiguration
+    $Cred = Get-AutomationPSCredential 'SomeCredentialAsset'
+
+    Node $AllNodes.NodeName
+    {
+        File ExampleFile
+        {
+            SourcePath      = '\\Server\share\path\file.ext'
+            DestinationPath = 'C:\destinationPath'
+            Credential      = $Cred
+        }
+    }
+}
+
+```
+
+To get the Storage Account Credentials (keys)
+
+```PowerShell
+$resourceGroupName = 'SystemCenter'
+$storageAccountName = 'contosofileserver'
+$fileShareName = 'Products'
+$AccessKey = 'cMFf6HKrhrDdFRH+TKnOqDhz8atKEzt4iYFwmYzVfd0UhgAogc5AMH3mOgWM+K+GQdPQ7ujqyrtSP3x3Gip3nQ=='
+
+$storageAccount = Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName
+$storageAccountKeys = Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $storageAccountName
+
+$password = ConvertTo-SecureString -String $storageAccountKeys[0].Value -AsPlainText -Force
+$credential = New-Object System.Management.Automation.PSCredential -ArgumentList "AZURE\$($storageAccount.StorageAccountName)", $password
+```
 
 
 ```PowerShell
