@@ -2,6 +2,18 @@
 
 Project to deploy software to Azure VMs using Azure Automation DSC and Azure Storage to host source files.
 
+1. Create the following Prerequisites
+    - Create Azure Automation Account
+    - Create an Azure Storage Account File share to host msi/installation source files
+1. Get the Storage Account Access Credentials
+1. Add Credentials to Azure Automation Assets
+1. Create Configuration scripts
+    - Get credential for Azure Automation
+    - use credential in related configs
+1. Deploy config to node
+
+
+
 # Architecture Components
 
 ## Azure Automation
@@ -21,9 +33,13 @@ We use Azure Automation to push configuration to VMs
 1. We need a general-purposev2 type Storage Account to host Installation Sources (msi). Sample Storage Account configuration is as follows.
 
 ![Storage Account](./Images/AzureStorage.png)
-2. Create an azure file share
+1. Create an azure file share
 
 ![Create Azure File Share](./Images/CreateFileShare.jpg)
+
+1. Get the Storage Account Name and Keys
+1. Add Keys to Azure Automation Credentials
+1. Add Credentials to Azure Automation DSC Config
 
 
 # Sample Codes
@@ -153,7 +169,7 @@ Register-AzureRmAutomationDscNode
 - [Azure Storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview)
 - [Azure Autamation State Configuration](https://docs.microsoft.com/en-us/azure/automation/automation-dsc-getting-started)
 - [Azure Automation Credential](https://docs.microsoft.com/en-us/azure/automation/shared-resources/credentials)
-
+- [Azure Automation Credential assets](https://docs.microsoft.com/en-us/azure/automation/automation-dsc-compile#credential-assets)
 
 # Tools
 - [FlowCharts](https://www.draw.io/)
