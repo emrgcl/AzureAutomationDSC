@@ -12,9 +12,8 @@ Project to deploy software to Azure VMs using Azure Automation DSC and Azure Sto
     - use credential in related configs
 1. Deploy config to node
 
-
-
 # Architecture Components
+
 
 ## Azure Automation
 
@@ -120,7 +119,22 @@ Configuration CredentialSample
 }
 
 ```
-
+Package Resource Syntax
+```PowerShell
+Package [string] #ResourceName
+{
+    Name = [string]
+    Path = [string]
+    ProductId = [string]
+    [ Arguments = [string] ]
+    [ Credential = [PSCredential] ]
+    [ LogPath = [string] ]
+    [ ReturnCode = [UInt32[]] ]
+    [ DependsOn = [string[]] ]
+    [ Ensure = [string] { Absent | Present }  ]
+    [ PsDscRunAsCredential = [PSCredential] ]
+}
+```
 To get the Storage Account Credentials (keys)
 
 ```PowerShell
