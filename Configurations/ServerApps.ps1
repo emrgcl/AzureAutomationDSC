@@ -14,6 +14,7 @@ Configuration CompositeServerApps {
     $Cred = Get-AutomationPSCredential -Name $CredentialAssetName
     $Path = "\\$StorageAccountName.file.core.windows.net\$ShareName"
     Write-verbose "Path for MSI files : $Path"
+
     Package Install7Zip
     {
         Ensure = 'Present'
