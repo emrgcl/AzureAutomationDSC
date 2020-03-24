@@ -1,10 +1,10 @@
-Configuration CompositeServerApps {
-
+Configuration AppBaseLine
+{
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory = $true)]
         [string]$StorageAccountName,
-        [Parameter(Mandatory = $true)],
+        [Parameter(Mandatory = $true)]
         [string]$ShareName,
         [Parameter(Mandatory = $true)]
         [string]$CredentialAssetName
@@ -36,6 +36,4 @@ Configuration CompositeServerApps {
     }
     
 }
-
-
 
