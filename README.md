@@ -153,6 +153,21 @@ $password = ConvertTo-SecureString -String $storageAccountKeys[0].Value -AsPlain
 $credential = New-Object System.Management.Automation.PSCredential -ArgumentList "AZURE\$($storageAccount.StorageAccountName)", $password
 ```
 
+```PowerShell
+
+$connectTestResult = Test-NetConnection -ComputerName azureautomationwithemre.file.core.windows.net -Port 445
+if ($connectTestResult.TcpTestSucceeded) {
+    # Save the password so the drive will persist on reboot
+    cmd.exe /C "cmdkey /add:`"azureautomationwithemre.file.core.windows.net`" /user:`"Azure\azureautomationwithemre`" /pass:`"GYuI8CRDJCAnRrgmTqA1myfNNl0FsbbpBugrMCVug05nKkjGvvH+ddkvS7rAI0XzyjP6ui8EHxU24nvtge2jTQ==`""
+    # Mount the drive
+    New-PSDrive -Name Z -PSProvider FileSystem -Root "\\azureautomationwithemre.file.core.windows.net\installationsources"-Persist
+} else {
+    Write-Error -Message "Unable to reach the Azure storage account via port 445. Check to make sure your organization or ISP is not blocking port 445, or use Azure P2S VPN, Azure S2S VPN, or Express Route to tunnel SMB traffic over a different port."
+}
+
+```
+
+Getting Credential Asset from Azure Automation Sample
 
 ```PowerShell
 $myCredential = Get-AutomationPSCredential -Name 'MyCredential'
@@ -184,11 +199,14 @@ Register-AzureRmAutomationDscNode
 
 # Referneces
 - [Azure Storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview)
+- [how to use files in Azure Storage File Server](https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-windows)
 - [Azure Autamation State Configuration](https://docs.microsoft.com/en-us/azure/automation/automation-dsc-getting-started)
 - [Azure Automation Credential](https://docs.microsoft.com/en-us/azure/automation/shared-resources/credentials)
 - [Azure Automation Credential assets](https://docs.microsoft.com/en-us/azure/automation/automation-dsc-compile#credential-assets)
 - [Azure Table Storage Powershell](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-how-to-use-powershell)
 - [ComputerManagementDsc](https://github.com/dsccommunity/ComputerManagementDsc)
+- [Authoring Powerhell Composite Resources](https://docs.microsoft.com/en-us/powershell/scripting/dsc/resources/authoringresourcecomposite?view=powershell-7)
+- [Using DSC Composite Resources - Tutorial](http://duffney.io/UsingDscCompositeResources)
 
 # Tools
 - [FlowCharts](https://www.draw.io/)
