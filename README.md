@@ -2,7 +2,6 @@
 
 Project to deploy software to Azure VMs using Azure Automation DSC and Azure Storage to host source files.
 
-
 1. Create the following Prerequisites
     - Create Azure Automation Account
     - Create an Azure Storage Account File share to host msi/installation source files
@@ -17,8 +16,7 @@ Project to deploy software to Azure VMs using Azure Automation DSC and Azure Sto
 
 Below is a high level view of the solution
 
-![Solution](./Images/Solution.png)
-
+![Solution](./Images/Solution.PNG)
 
 ## Azure Automation
 
@@ -190,6 +188,8 @@ Register-AzureRmAutomationDscNode
 - [Azure Automation Credential](https://docs.microsoft.com/en-us/azure/automation/shared-resources/credentials)
 - [Azure Automation Credential assets](https://docs.microsoft.com/en-us/azure/automation/automation-dsc-compile#credential-assets)
 - [Azure Table Storage Powershell](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-how-to-use-powershell)
+- [ComputerManagementDsc](https://github.com/dsccommunity/ComputerManagementDsc)
+
 # Tools
 - [FlowCharts](https://www.draw.io/)
 - [MindMapping](https://www.mindmeister.com/)
