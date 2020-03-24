@@ -14,6 +14,7 @@ Configuration AppBaseLine
     
     $Path = "\\$StorageAccountName.file.core.windows.net\$ShareName"
     Write-verbose "Path for MSI files : $Path"
+    Write-verbose "UserName to access to Share : $($Cred.UserName)"
 
     Package Install7Zip
     {
