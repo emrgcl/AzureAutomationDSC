@@ -7,11 +7,11 @@ Configuration AppBaseLine
         [Parameter(Mandatory = $true)]
         [string]$ShareName,
         [Parameter(Mandatory = $true)]
-        [string]$CredentialAssetName
+        [pscredential]$Cred
     )
 
     Import-DscResource -ModuleName PSDesiredStateConfiguration
-    $Cred = Get-AutomationPSCredential -Name $CredentialAssetName
+    
     $Path = "\\$StorageAccountName.file.core.windows.net\$ShareName"
     Write-verbose "Path for MSI files : $Path"
 
