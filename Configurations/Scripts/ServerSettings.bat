@@ -21,7 +21,7 @@ Rem   ## Windows sistem bilgisi alinir
 Rem   ## Isim Bilgisi aliniyor
 Rem   ## FQDN adi tekrar veriliyor
 Rem   ## SNMP Install edilip ayarlanmasi
-Rem   ## Administrator KSfnc248 olarak degistiriliyor
+Rem   ## Administrator renamed_localadmin_account olarak degistiriliyor
 @echo on
 cls
 setlocal enabledelayedexpansion
@@ -349,9 +349,9 @@ if "%_major%"=="6" (
             REG ADD HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SNMP\Parameters\ValidCommunities /V K$CSnMp1945 /T REG_DWORD /F /D 4
             REG ADD HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate /V ElevateNonAdmins /T REG_DWORD /F /D 0
             dism /online /enable-feature /featurename:SNMP
-            Rem   ## Administrator KSfnc248 olarak degistiriliyor
-            wmic UserAccount where Name="administrator" call rename name="ksfnc248"
-            echo Administrator KSfnc248 olarak degistiriliyor 
+            Rem   ## Administrator renamed_localadmin_account olarak degistiriliyor
+            wmic UserAccount where Name="administrator" call rename name="renamed_localadmin_account"
+            echo Administrator renamed_localadmin_account olarak degistiriliyor 
             echo Windows 2008 r2 SNMP Install edilip ayarlandi
             echo SNMP Install edilip ayarlandi
             ) else (
@@ -368,9 +368,9 @@ if "%_major%"=="6" (
             REG ADD HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SNMP\Parameters\ValidCommunities /V K$CSnMp1945 /T REG_DWORD /F /D 4
             REG ADD HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate /V ElevateNonAdmins /T REG_DWORD /F /D 0 
             dism /online /enable-feature /featurename:SNMP
-            Rem   ## Administrator KSfnc248 olarak degistiriliyor
-            wmic UserAccount where Name="administrator" call rename name="ksfnc248"
-            echo Administrator KSfnc248 olarak degistiriliyor
+            Rem   ## Administrator renamed_localadmin_account olarak degistiriliyor
+            wmic UserAccount where Name="administrator" call rename name="renamed_localadmin_account"
+            echo Administrator renamed_localadmin_account olarak degistiriliyor
             echo Windows 2012 r2 SNMP Install edilip ayarlandi
             echo SNMP Install edilip ayarlandi
 
