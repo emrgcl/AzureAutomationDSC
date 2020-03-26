@@ -18,7 +18,7 @@ configuration InstallApplications
     Cred = Get-AutomationPSCredential -Name $CredentialAssetName
     
     
-    node 'ServerInstallation'
+    node 'localhost'
     {
         AppBaseline Applications {
 
@@ -33,7 +33,7 @@ configuration InstallApplications
 $ConfigData = @{
     AllNodes = @(
         @{
-            NodeName = 'ServerInstallation'
+            NodeName = 'localhost'
             PSDscAllowDomainUser = $true
             PSDscAllowPlainTextPassword = $true
         }
