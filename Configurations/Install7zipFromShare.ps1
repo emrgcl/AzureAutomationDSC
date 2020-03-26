@@ -33,6 +33,12 @@ Configuration Install7Zip
 
 
         }
+
+        FileHelper file
+        {
+            Path = "C:\Packages\file.txt"
+            Ensure = "Absent"
+        }
     }
 }
 
