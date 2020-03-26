@@ -8,12 +8,13 @@ configuration InstallApplications
         [Parameter(Mandatory = $true)]
         [string]$ShareName,
         [Parameter(Mandatory = $true)]
-        $MsiSettings
+        $MsiSettings,
+        [pscredential]$Cred
     
     )    
     
     Import-DscResource -ModuleName ServerApps 
-    $cred = Get-Credential
+    #$cred = Get-Credential
     #Cred = Get-AutomationPSCredential -Name $CredentialAssetName
     
     
