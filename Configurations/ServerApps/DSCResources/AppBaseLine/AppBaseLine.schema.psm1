@@ -7,52 +7,57 @@ Configuration AppBaseLine
         [Parameter(Mandatory = $true)]
         [string]$ShareName,
         [Parameter(Mandatory = $true)]
-        [pscredential]$Cred
+        [pscredential]$Cred,
+        [Parameter(Mandatory = $true)]
+        $MsiSettings
+
     )
 
     Import-DscResource -ModuleName PSDesiredStateConfiguration
+    Import-DScResource -Name FileHelper
     
     $Path = "\\$StorageAccountName.file.core.windows.net\$ShareName"
-    Write-verbose "Path for MSI files : $Path"
-    Write-verbose "UserName to access to Share : $($Cred.UserName)"
+    $guid = (new-guid).Guid
+    Write-Verbose "Msi Source Path: $Path"
+    Write-Verbose "UserName: $($Cred.UserName)"
+    Write-Verbose "Temporary folder is : c:\$guid"
+    Write-Verbose "Number of Software Settings found: $($MsiSettings.Count)"
+          
+    Foreach ($MsiSetting in  $MsiSettings) {
+        
+        $MsiSetting.MsiFile -match '(?<Parent>\S+)((\.msi)|\s)' | out-null
 
-
-    File Copy_7-Zip
-    {
-        Ensure = "Present"
-        Type = "File"
-        SourcePath = "$Path\7z1900-x64.msi"
-        DestinationPath = "C:\Packages\7z1900-x64.msi"
-        Credential = $Credential
-        Recurse = $true
-    }
+        $ResourceExtension = $Matches['Parent']
+        Write-Verbose -Message "Resource Name Extension: $ResourceExtension, MsiFile = $($MsiSetting.MsiFile)"
     
-    Package Install_7-Zip
-    {
-     
-        Ensure = 'Present'
-        Name = '7-Zip 19.00 (x64 edition)'
-        Path = "$Path\7z1900-x64.msi"
-        ProductId = '23170F69-40C1-2702-1900-000001000000'
-        Credential = $Cred
-        DependsOn = "[File]MSICopy"
-    }
+        File "CopyMsi_$ResourceExtension"
+        {
+            Ensure = "Present"
+            Type = "File"
+            SourcePath = "$Path\$($MsiSetting.MsiFile)"
+            DestinationPath = "C:\$guid\$($MsiSetting.MsiFile)"
+            Credential = $Cred
+            Recurse = $true
+        }
 
-    FileHelper Delete_7-Zip
-    {
-        Path = "C:\Packages\file.txt"
-        Ensure = "Absent"
-    }
-
-    Package ChromePackage
-    {
-        Ensure = 'Present'
-        Name = 'Google Chrome'
-        Path = "$Path\googlechromestandaloneenterprise64.msi"
-        ProductId = '09D53CC6-0A7A-3BE2-B558-542159936402'
-        Credential = $Cred
-
-    }
+        Package "Install_$ResourceExtension"
+        {
+            Ensure = 'Present'
+            Name = $MsiSetting.Name
+            Path = "C:\$Guid\$($MsiSetting.MsiFile)"
+            ProductId = $MsiSetting.ProductID
+            Arguments = $MsiSetting.Arguments
+            LogPath = $MsiSetting.LogPath
+            DependsOn = "[File]CopyMsi_$ResourceExtension"
+                
+        }
+       FileHelper "RemoveMsi_$ResourceExtension"
+        {
+            Path = "C:\$Guid"
+            Ensure = "Absent"
+            DependsOn = "[Package]Install_$ResourceExtension"
+        }
+   }
     
 }
 
