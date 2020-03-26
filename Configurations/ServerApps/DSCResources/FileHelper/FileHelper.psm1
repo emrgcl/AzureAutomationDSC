@@ -61,7 +61,7 @@ function Set-TargetResource
     )
         $TestResult = test-path -Path $Path
 
-        if ($TestResult -and $Ensure -eq 'Absent') {
+        if ($TestResult -and $Ensure -eq 'Absent' -and $path -notin 'c:\','c:','c:\Windows\','c:\Windows','c:\Users','c:\Users\','C:\Program Files','C:\Program Files\','C:\Program Files (x86)','C:\Program Files (x86)\') {
             
             Write-Verbose "Deleting the file $Path."
             Remove-Item -Path $Path -Force        
@@ -69,7 +69,7 @@ function Set-TargetResource
             
          } else {
             
-            Write-Verbose "Nothing to do. FileExist: $TestResult and Ensure: $Ensure"
+            Write-Verbose "Nothing to do. FileExist: $TestResult and Ensure: $Ensure, Path = $Path"
             
          }   
             
