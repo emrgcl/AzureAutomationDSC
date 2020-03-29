@@ -237,6 +237,7 @@ Register-AzureRmAutomationDscNode
 ```
 
 Getting Varible in Azure Automation
+
 ```PowerShell
 Get-AzAutomationVariable -ResourceGroupName 'EASTUS' -AutomationAccountName 'StateConfig-Contoso' -Name 'MsiSettings'
 ```
