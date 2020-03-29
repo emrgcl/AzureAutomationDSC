@@ -12,13 +12,27 @@ Project to deploy software to Azure VMs using Azure Automation DSC and Azure Sto
     - use credential in related configs
 1. Deploy config to node
 
+
+# Create Azure Automation Account
+- Create an Azure automation account
+- Import following modules
+    - Az.Accounts : Browse the gallery and add
+    - Az.Automation: Browse the gallery and add
+    - ServerApps: Add the zip file in the project modules diretory
+
+- Get the Run As Credentials
+    ![Get Run As Credentials](./Images/GetRunAsCredentials.png)
+- Set the Azure Run As Account to be a contributer
+
+
+
 # Architecture Components
 
 Below is a high level view of the solution
 
 ![Solution](./Images/Solution.PNG)
 
-## Azure Automation
+## CreateAzure Automation
 
 We use Azure Automation to push configuration to VMs
 
@@ -27,6 +41,32 @@ We use Azure Automation to push configuration to VMs
 1. Create DSC Config
 1. Upload DSC config to Azure Automation
 ![State Configuration](./Images/StateConfigs.png)
+1. Ensure MsiSettings exits under variables. 
+    - If MsiSettings is not available under variables not create a new one
+
+    ```PowerShell
+    Connect-AzAccount
+    $MsiSettings = @(
+
+    @{MsiFile = '7z1900-x64.msi'; ProductID = '23170F69-40C1-2702-1900-000001000000';  Name = '7-Zip 19.00 (x64 edition)'; Arguments = '/norestart'},
+    @{MsiFile = 'googlechromestandaloneenterprise64.msi'; ProductID = '09D53CC6-0A7A-3BE2-B558-542159936402';  Name = 'Google Chrome'}
+
+
+    )
+    new-AZAutomationVariable -AutomationAccountName 'StateConfig-Contoso' -ResourceGroupName 'EastUS' -Name 'MsiSettings' -Value $MsiSettings -Encrypted $false
+    ```
+     - to update existing Msisettings edit the below and run
+    ```PowerShell
+    Connect-AzAccount
+    $MsiSettings = @(
+
+    @{MsiFile = '7z1900-x64.msi'; ProductID = '23170F69-40C1-2702-1900-000001000000';  Name = '7-Zip 19.00 (x64 edition)'; Arguments = '/norestart'},
+    @{MsiFile = 'googlechromestandaloneenterprise64.msi'; ProductID = '09D53CC6-0A7A-3BE2-B558-542159936402';  Name = 'Google Chrome'}
+
+
+    )
+    Set-AZAutomationVariable -AutomationAccountName 'StateConfig-Contoso' -ResourceGroupName 'EastUS' -Name 'MsiSettings' -Value $MsiSettings -Encrypted $false
+    ```
 1. Connect the Node
 1. Monitor Results in Azure Monitor
 ![Monitor Results](./Images/ConfigMonitor.png)
@@ -196,6 +236,11 @@ Register-AzureRmAutomationDscNode
         [<CommonParameters>]
 ```
 
+Getting Varible in Azure Automation
+```PowerShell
+Get-AzAutomationVariable -ResourceGroupName 'EASTUS' -AutomationAccountName 'StateConfig-Contoso' -Name 'MsiSettings'
+```
+
 
 # Referneces
 - [Azure Storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview)
@@ -207,6 +252,7 @@ Register-AzureRmAutomationDscNode
 - [ComputerManagementDsc](https://github.com/dsccommunity/ComputerManagementDsc)
 - [Authoring Powerhell Composite Resources](https://docs.microsoft.com/en-us/powershell/scripting/dsc/resources/authoringresourcecomposite?view=powershell-7)
 - [Using DSC Composite Resources - Tutorial](http://duffney.io/UsingDscCompositeResources)
+- [Connect to Azure using Azure Automation](https://docs.microsoft.com/en-us/azure/automation/troubleshoot/runbooks#resolution-13)
 
 # Tools
 - [FlowCharts](https://www.draw.io/)

@@ -8,7 +8,7 @@ configuration InstallApplications
         [Parameter(Mandatory = $true)]
         [string]$ShareName,
         [Parameter(Mandatory = $true)]
-        $MsiSettings,
+        $MsiSettingsFile,
         [string]$CredentialAssetName
     
     )    
@@ -16,6 +16,17 @@ configuration InstallApplications
     Import-DscResource -ModuleName ServerApps 
     #$cred = Get-Credential
     Cred = Get-AutomationPSCredential -Name $CredentialAssetName
+    $Path = "\\$StorageAccountName.file.core.windows.net\$ShareName\$MsiSettingsFile"
+    try {
+        Import-PowerShellDataFile -Path $Path -cre
+    }
+    catch {
+        
+    }
+    finally {
+        
+    }
+      
     
     
     node 'localhost'
@@ -27,6 +38,15 @@ configuration InstallApplications
             Cred  = $cred
             MsiSettings =  $MsiSettings
         }
+
+        ServerSerttings CustomerSpecific {
+
+            StorageAccountName = $StorageAccountName
+            ShareName = $ShareName
+            Cred  = $cred
+            MsiSettings =  $MsiSettings
+        }
+
     }
 }
 
