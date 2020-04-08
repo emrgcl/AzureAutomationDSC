@@ -7,6 +7,9 @@ Project to deploy software to Azure VMs using Azure Automation DSC and Azure Sto
     - Create an Azure Storage Account File share to host msi/installation source files
 1. Get the Storage Account Access Credentials
 1. Add Credentials to Azure Automation Assets
+1. Import Runbook & Publish
+1. Add configuration to State DSC
+1. add a schedule to runbook
 1. Create Configuration scripts
     - Get credential for Azure Automation
     - use credential in related configs

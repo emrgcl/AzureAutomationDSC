@@ -1,18 +1,18 @@
 Param(
 [Parameter(Mandatory = $true)]
-[string]$StorageAccountName 
+[string]$StorageAccountName, 
 [Parameter(Mandatory = $true)]
-[string]$AutomationAccountName
+[string]$AutomationAccountName,
 [Parameter(Mandatory = $true)]
-[string]$ResourceGroupName
+[string]$ResourceGroupName,
 [Parameter(Mandatory = $true)]
-[string]$ShareName
+[string]$ShareName,
 [Parameter(Mandatory = $true)]
-[string]$VariableName
+[string]$VariableName,
 [Parameter(Mandatory = $true)]
-[string]$MsiSettingsFile
+[string]$MsiSettingsFile,
 [Parameter(Mandatory = $true)]
-[string]$CredentialAssetName
+[string]$CredentialAssetName,
 [Parameter(Mandatory = $true)]
 [string]$ConfigurationName
 )
@@ -79,4 +79,21 @@ $AzureContext = Get-AzSubscription -SubscriptionId $connection.SubscriptionID
 Set-AzAutomationVariable -AutomationAccountName $AutomationAccountName -Name $VariableName -ResourceGroupName $ResourceGroupName -Value ($MsiSettings.MsiSettings) -Encrypted $False -verbose
 
 # Now Lets compile
-Start-AzAutomationDscCompilationJob -ResourceGroupName $ResourceGroupName  -AutomationAccountName $AutomationAccountName -ConfigurationName $ConfigurationName
+$Parameters = @{
+    'Sharename' = $ShareName
+    'StorageAccountName' = $StorageAccountName
+    'CredentialAssetName' = $CredentialAssetName
+    'MsiSettings' = $MsiSettings.MsiSettings
+}
+
+$ConfigurationData  = @{
+    AllNodes = @(
+        @{
+            NodeName = 'localhost'
+            PSDscAllowDomainUser = $true
+            PSDscAllowPlainTextPassword = $true
+        }
+    )
+
+}
+Start-AzAutomationDscCompilationJob -ResourceGroupName $ResourceGroupName  -AutomationAccountName $AutomationAccountName -ConfigurationName $ConfigurationName -Parameters $Parameters -ConfigurationData $ConfigurationData 
