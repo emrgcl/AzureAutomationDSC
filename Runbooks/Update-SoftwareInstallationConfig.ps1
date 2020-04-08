@@ -8,8 +8,6 @@ Param(
 [Parameter(Mandatory = $true)]
 [string]$ShareName,
 [Parameter(Mandatory = $true)]
-[string]$VariableName,
-[Parameter(Mandatory = $true)]
 [string]$MsiSettingsFile,
 [Parameter(Mandatory = $true)]
 [string]$CredentialAssetName,
@@ -74,10 +72,10 @@ $MsiSettings.MsiSettings
 $connection = Get-AutomationConnection -Name AzureRunAsConnection
 Connect-toAzure -connection $connection | out-null
 
-# Set the Variable
+<# you can also use automation variables in the script to set and get msisettings hastable. Set the Variable
 $AzureContext = Get-AzSubscription -SubscriptionId $connection.SubscriptionID
 Set-AzAutomationVariable -AutomationAccountName $AutomationAccountName -Name $VariableName -ResourceGroupName $ResourceGroupName -Value ($MsiSettings.MsiSettings) -Encrypted $False -verbose
-
+#>
 # Now Lets compile
 $Parameters = @{
     'Sharename' = $ShareName
