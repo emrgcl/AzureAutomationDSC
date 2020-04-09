@@ -77,7 +77,9 @@ We use Azure Automation to push configuration to VMs
 ## Azure Storage Account
 1. We need a general-purposev2 type Storage Account to host Installation Sources (msi). Sample Storage Account configuration is as follows.
 
-![Storage Account](./Images/AzureStorage.png)
+
+<img src="./Images/AzureStorage.png" alt="Storage Account" width="600"/>
+
 1. Create an azure file share
 
 ![Create Azure File Share](./Images/CreateFileShare.jpg)
