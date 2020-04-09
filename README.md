@@ -24,17 +24,17 @@ Project to deploy software to Azure VMs using Azure Automation DSC and Azure Sto
     - ServerApps: Add the zip file in the project modules diretory
 
 - Get the Run As Credentials
-    ![Get Run As Credentials](./Images/GetRunAsCredentials.png)
+    ![Get](./Images/GetRunAsCredentials.png = 100x100)
 - Set the Azure Run As Account to be a contributer
 
+<img src="./Images/GetRunAsCredentials.png" alt="Credentials" width="550"/>
 
 
 # Architecture Components
 
 Below is a high level view of the solution
 
-![Solution](./Images/Solution.PNG)
-
+<img src="./Images/Solution.PNG" alt="Solution" width="500"/>
 ## CreateAzure Automation
 
 We use Azure Automation to push configuration to VMs
